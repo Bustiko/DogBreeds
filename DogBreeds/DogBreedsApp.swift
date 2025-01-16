@@ -13,7 +13,7 @@ struct DogBreedsApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainPageView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
