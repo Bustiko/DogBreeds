@@ -29,7 +29,11 @@ struct DataManager {
             guard response.statusCode >= 200 && response.statusCode < 300 else {
                 throw NetworkError.badStatus
             }
-            guard let decodedResponse = try? JSONDecoder().decode(T.self, from: data) else {
+            
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            
+            guard let decodedResponse = try? decoder.decode(T.self, from: data) else {
                 throw NetworkError.JSONDecodeFail
             }
             

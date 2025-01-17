@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct MainPageView: View {
-    @State var selectedTab: Int = 0
+    @State private var selectedTab: Int = 0
     @State private var timer: Timer?
-    let numberOfTabs: Int = Constants.CarouselPhoto.allCases.count
-    let columns = Array(repeating: GridItem(.flexible()), count: 3)
-  
+    @StateObject var breedManager: BreedManager = BreedManager()
+    private let numberOfTabs: Int = Constants.CarouselPhoto.allCases.count
+    private let columns = Array(repeating: GridItem(.flexible()), count: 3)
+   
   
     private func startScrolling() {
         timer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { _ in
@@ -38,8 +39,12 @@ struct MainPageView: View {
                 .background(Color.clayBrown)
                 .shadow(radius: 5)
                 .onAppear {
-                        startScrolling()
-                    
+                    startScrolling()
+                    Task {
+                       await breedManager.fetchData()
+                        
+                    }
+                   
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
                 .frame(height: 200)
@@ -66,19 +71,20 @@ struct MainPageView: View {
                     .shadow(radius: 5)
                     
                 ScrollView(.vertical) {
-                    LazyVGrid(columns: columns) {
-                        ForEach(0..<10, id: \.self) { _ in
+                    LazyVGrid(columns: columns, alignment: .center, spacing: 1) {
+                        ForEach(breedManager.breedData, id: \.name) { breed in
                             NavigationLink {
                                 DetailsPageView()
                             } label: {
-                                Image(Constants.CarouselPhoto.photo1.rawValue)
-                                    .resizable()
-                                    .scaledToFit()
+                                BreedGridView(imageURL: breed.imageLink, name: breed.name)
                             }
                             
                         }
                     }
                 }
+                .padding()
+                .scrollIndicators(.hidden)
+                .shadow(radius: 5)
        
             }
             .background(
