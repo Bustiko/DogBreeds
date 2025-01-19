@@ -13,4 +13,11 @@ extension Image {
             .resizable()
             .scaledToFit()
     }
+    
+    func fallbackImageStyle() -> some View {
+        self
+            .imageStyle()
+            .frame(width: 50, height: 50)
+            .foregroundStyle(Color.white)
+    }
 }

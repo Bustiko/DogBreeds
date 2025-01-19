@@ -13,45 +13,58 @@ struct BreedGridView: View {
     
     var body: some View {
         VStack {
-            AsyncImage(url: URL(string: imageURL), transaction: Transaction(animation: .spring(duration: 2, bounce: 0.5))) { phase in
+            // Asynchronous image loading with fallbacks
+            AsyncImage(
+                url: URL(string: imageURL),
+                transaction: Transaction(animation: .spring(response: 0.5, dampingFraction: 0.7))
+            ) { phase in
                 switch phase {
                 case .success(let image):
                     image
                         .imageStyle()
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.beige, lineWidth: 2)
+                                .shadow(
+                                    color: Color.beige.opacity(1),
+                                    radius: 4
+                                )
+                        )
                         .transition(.scale)
-                        .clipShape(.circle)
 
-                case .failure(_):
+                case .failure, .empty:
                     Image(systemName: "pawprint")
-                        .imageStyle()
-                        .foregroundStyle(.beige)
-
-                case .empty:
-                    Image(systemName: "pawprint")
-                        .imageStyle()
-                        .foregroundStyle(.beige)
-                      
+                        .fallbackImageStyle()
+                    
                 @unknown default:
-                    fatalError()
+                    fatalError("Unexpected AsyncImage phase")
                 }
             }
+            .padding(20)
             
+            // Divider separating image and name
+            Divider()
+                .frame(height: 2)
+                .background(.white)
+
+            // Breed name
             Text(name)
-                .font(.system(.footnote, design: .rounded, weight: .bold))
-                .foregroundStyle(.beige)
-                .lineLimit(2)
+                .font(.system(size: 23, weight: .bold, design: .rounded))
+                .foregroundColor(.white)
+                .minimumScaleFactor(0.7)
+                .lineLimit(3)
+                .multilineTextAlignment(.center)
+                .frame(height: 40)
+                .padding(.horizontal, 10)
+                .padding(.bottom, 20)
+            
         }
-        .padding(20)
         .background(
-            Circle()
-                .fill(.clayBrown)
-                .overlay(alignment: .topLeading) {
-                    Text("🐾")
-                        .offset(x: 10, y: 10)
-                        
-                }
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color.clayBrown)
+
         )
-       
     }
 }
 
