@@ -13,35 +13,9 @@ struct BreedGridView: View {
     
     var body: some View {
         VStack {
-            // Asynchronous image loading with fallbacks
-            AsyncImage(
-                url: URL(string: imageURL),
-                transaction: Transaction(animation: .spring(response: 0.5, dampingFraction: 0.7))
-            ) { phase in
-                switch phase {
-                case .success(let image):
-                    image
-                        .imageStyle()
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.beige, lineWidth: 2)
-                                .shadow(
-                                    color: Color.beige.opacity(1),
-                                    radius: 4
-                                )
-                        )
-                        .transition(.scale)
-
-                case .failure, .empty:
-                    Image(systemName: "pawprint")
-                        .fallbackImageStyle()
-                    
-                @unknown default:
-                    fatalError("Unexpected AsyncImage phase")
-                }
-            }
-            .padding(20)
+            // Dog photo
+            DogPhotoView(imageURL: imageURL)
+                .padding(20)
             
             // Divider separating image and name
             Divider()

@@ -14,5 +14,10 @@ struct Constants {
         case photo3 = "photo3"
         case photo4 = "photo4"
     }
+    
+    enum Gender: String {
+        case male = "Male"
+        case female = "Female"
+    }
 }
 

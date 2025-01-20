@@ -11,9 +11,14 @@ struct MainPageView: View {
     @State private var selectedTab: Int = 0
     @State private var timer: Timer?
     @StateObject var breedManager: BreedManager = BreedManager()
+    @State private var isRandomPresented: Bool = false
     
     private let numberOfTabs: Int = Constants.CarouselPhoto.allCases.count
     private let columns = Array(repeating: GridItem(.flexible()), count: 2)
+    
+    private var randomBreedNumber: Int {
+        Int.random(in: 0..<breedManager.breedData.count)
+    }
    
     // MARK: - Timer for Scrolling
     private func startScrolling() {
@@ -42,6 +47,12 @@ struct MainPageView: View {
                 .background(Color.clayBrown)
                 .tabViewStyle(.page(indexDisplayMode: .never))
                 .frame(height: 200)
+                .onAppear {
+                    startScrolling()
+                }
+                .onDisappear {
+                    timer?.invalidate()
+                }
                 
                 //MARK: - Header View
                     HStack {
@@ -68,10 +79,16 @@ struct MainPageView: View {
 
                         // Random Breed Button
                         Button {
-                            
+                            isRandomPresented = true
                         } label: {
                             MainPageHeaderButtonLabelView(imageName: "wand.and.sparkles")
                         }
+                        .fullScreenCover(isPresented: $isRandomPresented, content: {
+                            NavigationStack {
+                                DetailsPageView(breed: breedManager.breedData[randomBreedNumber])
+                            }
+                            
+                        })
                     }// HSTACK
                     .padding()
                     .background(Color.clayBrown.shadow(radius: 20))
@@ -83,7 +100,7 @@ struct MainPageView: View {
                     LazyVGrid(columns: columns, alignment: .center, spacing: 16) {
                         ForEach(breedManager.breedData, id: \.name) { breed in
                             NavigationLink {
-                                DetailsPageView()
+                                DetailsPageView(breed: breed)
                             } label: {
                                 BreedGridView(imageURL: breed.imageLink, name: breed.name)
                                    
@@ -97,19 +114,12 @@ struct MainPageView: View {
 
        
             }// VSTACK
-            .background(
-                LinearGradient(colors: [.beige, .clayBrown.opacity(0.2)], startPoint: .top, endPoint: .bottom)
-            )
+            .modifier(GradientBackground())
             .onAppear {
-                startScrolling()
                 Task {
                    await breedManager.fetchData()
-                    
                 }
-               
             }
-
-            
         }// NAVIGATION
         
     }
