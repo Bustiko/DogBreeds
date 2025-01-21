@@ -14,13 +14,16 @@ struct MainPageView: View {
     @State private var timer: Timer?
     @StateObject var breedManager: BreedManager = BreedManager()
     @State private var isRandomPresented: Bool = false
+    @State private var selectedRandomBreed: Dog? = nil
     @State private var isFavoritesShown: Bool = false
+    
+    private let numberOfTabs: Int = Constants.CarouselPhoto.allCases.count
+    private let columns = Array(repeating: GridItem(.flexible()), count: 2)
     
     var groupedBreeds: [Character: [Dog]] {
         Dictionary(grouping: breedManager.breedData, by: { $0.name.first! })
     }
-    private let numberOfTabs: Int = Constants.CarouselPhoto.allCases.count
-    private let columns = Array(repeating: GridItem(.flexible()), count: 2)
+   
     
     // MARK: - Timer for Scrolling
     private func startScrolling() {
@@ -78,6 +81,9 @@ struct MainPageView: View {
                     
                     // Favorites Button
                     Button {
+                        Task {
+                            await breedManager.fetchData()
+                        }
                         withAnimation(.easeInOut(duration: 0.5)) {
                             isFavoritesShown.toggle()
                         }
@@ -94,16 +100,18 @@ struct MainPageView: View {
                     
                     // Random Breed Button
                     Button {
-                        isRandomPresented = true
+                        if let randomBreed = breedManager.breedData.randomElement() {
+                            selectedRandomBreed = randomBreed
+                            isRandomPresented = true
+                        }
                     } label: {
                         MainPageHeaderButtonLabelView(imageName: "wand.and.sparkles")
                     }
-                    .fullScreenCover(isPresented: $isRandomPresented, content: {
-                        NavigationStack {
-                            DetailsPageView(breed: breedManager.breedData[chooseRandom()])
+                    .navigationDestination(isPresented: $isRandomPresented) {
+                        if let breed = selectedRandomBreed {
+                            DetailsPageView(breed: breed)
                         }
-                        
-                    })
+                    }
                 }// HSTACK
                 .padding()
                 .background(Color.clayBrown.shadow(radius: 20))
