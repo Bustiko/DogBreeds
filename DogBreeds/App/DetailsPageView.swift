@@ -6,11 +6,13 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct DetailsPageView: View {
     
+    @Environment(\.managedObjectContext) private var context
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Breed.name, ascending: false)], animation: .default) private var favoriteBreedNames: FetchedResults<Breed>
     @Environment(\.dismiss) var dismiss
-    @State var isAddedToFavorites: Bool = false
 
     let breed: Dog
     
@@ -24,6 +26,32 @@ struct DetailsPageView: View {
          ("Shedding", breed.shedding),
          ("Energy", breed.energy)
         ]
+    }
+    
+    //MARK: - Add Favorite Breed
+    private func addToFavorites(name: String) {
+        let favoriteBreed = Breed(context: context)
+        favoriteBreed.name = name
+    
+        do {
+            try context.save()
+        }catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    //MARK: - Delete From Favorites
+    private func deleteFromFavorites(name: String) {
+        let fetchRequest: NSFetchRequest<Breed> = Breed.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "name == %@", name)
+        do {
+            let breedNameToDelete = try context.fetch(fetchRequest)
+            context.delete(breedNameToDelete[0])
+            try context.save()
+        }catch {
+            print(error.localizedDescription)
+        }
+        
     }
             
     var body: some View {
@@ -107,15 +135,15 @@ struct DetailsPageView: View {
                     }
             }
             ToolbarItem(placement: .topBarTrailing) {
-                if isAddedToFavorites {
+                if favoriteBreedNames.contains(where: {$0.name == breed.name}) {
                     DetailsPageToolbarItemView(imageName: "heart.fill")
                         .onTapGesture {
-                            isAddedToFavorites.toggle()
+                            deleteFromFavorites(name: breed.name)
                         }
                 }else {
                     DetailsPageToolbarItemView(imageName: "heart")
                         .onTapGesture {
-                            isAddedToFavorites.toggle()
+                            addToFavorites(name: breed.name)
                         }
                 }
                 

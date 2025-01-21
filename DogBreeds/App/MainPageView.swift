@@ -6,20 +6,22 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct MainPageView: View {
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Breed.name, ascending: false)], animation: .default) private var favoriteBreedNames: FetchedResults<Breed>
     @State private var selectedTab: Int = 0
     @State private var timer: Timer?
     @StateObject var breedManager: BreedManager = BreedManager()
     @State private var isRandomPresented: Bool = false
+    @State private var isFavoritesShown: Bool = false
     
+    var groupedBreeds: [Character: [Dog]] {
+        Dictionary(grouping: breedManager.breedData, by: { $0.name.first! })
+    }
     private let numberOfTabs: Int = Constants.CarouselPhoto.allCases.count
     private let columns = Array(repeating: GridItem(.flexible()), count: 2)
     
-    private var randomBreedNumber: Int {
-        Int.random(in: 0..<breedManager.breedData.count)
-    }
-   
     // MARK: - Timer for Scrolling
     private func startScrolling() {
         timer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { _ in
@@ -28,7 +30,11 @@ struct MainPageView: View {
             }
         }
     }
-
+    
+    private func chooseRandom() -> Int {
+        Int.random(in: 0..<breedManager.breedData.count)
+    }
+    
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
@@ -55,69 +61,116 @@ struct MainPageView: View {
                 }
                 
                 //MARK: - Header View
-                    HStack {
-                        // Title
-                        Text("Popular Breeds")
-                            .font(.title.bold())
-                            .foregroundColor(.clayBrown)
-                            .padding(5)
-                            .background(
-                                Color.white.opacity(0.7)
-                                    .cornerRadius(16)
-                                    .padding(.horizontal, -20)
-                            )
-                            .padding(.horizontal)
-
-                        Spacer()
+                HStack {
+                    // Title
+                    Text(isFavoritesShown ? "Favorite Breeds" : "Popular Breeds")
+                        .font(.title.bold())
+                        .foregroundColor(.clayBrown)
+                        .padding(5)
+                        .background(
+                            Color.white.opacity(0.7)
+                                .cornerRadius(16)
+                                .padding(.horizontal, -20)
+                        )
+                        .padding(.horizontal)
+                    
+                    Spacer()
+                    
+                    // Favorites Button
+                    Button {
+                        withAnimation(.easeInOut(duration: 0.5)) {
+                            isFavoritesShown.toggle()
+                        }
                         
-                        // Favorites Button
-                        Button {
-                            
-                        } label: {
+                    } label: {
+                        if isFavoritesShown {
+                            MainPageHeaderButtonLabelView(imageName: "heart.fill")
+                        }else {
                             MainPageHeaderButtonLabelView(imageName: "heart")
                         }
-
-                        // Random Breed Button
-                        Button {
-                            isRandomPresented = true
-                        } label: {
-                            MainPageHeaderButtonLabelView(imageName: "wand.and.sparkles")
+                        
+                    }
+                    .scaleEffect(isFavoritesShown ? 1.2 : 1)
+                    
+                    // Random Breed Button
+                    Button {
+                        isRandomPresented = true
+                    } label: {
+                        MainPageHeaderButtonLabelView(imageName: "wand.and.sparkles")
+                    }
+                    .fullScreenCover(isPresented: $isRandomPresented, content: {
+                        NavigationStack {
+                            DetailsPageView(breed: breedManager.breedData[chooseRandom()])
                         }
-                        .fullScreenCover(isPresented: $isRandomPresented, content: {
-                            NavigationStack {
-                                DetailsPageView(breed: breedManager.breedData[randomBreedNumber])
-                            }
-                            
-                        })
-                    }// HSTACK
-                    .padding()
-                    .background(Color.clayBrown.shadow(radius: 20))
-                    .foregroundStyle(Color.beige)
-                    
-                    
+                        
+                    })
+                }// HSTACK
+                .padding()
+                .background(Color.clayBrown.shadow(radius: 20))
+                .foregroundStyle(Color.beige)
+                
+                
                 //MARK: - Breed Grid
                 ScrollView(.vertical) {
-                    LazyVGrid(columns: columns, alignment: .center, spacing: 16) {
-                        ForEach(breedManager.breedData, id: \.name) { breed in
-                            NavigationLink {
-                                DetailsPageView(breed: breed)
-                            } label: {
-                                BreedGridView(imageURL: breed.imageLink, name: breed.name)
-                                   
+                    if isFavoritesShown && favoriteBreedNames.isEmpty {
+                        HStack {
+                            Image(systemName: "pawprint")
+                                .font(.system(size: 50, weight: .bold))
+                                .foregroundColor(.clayBrown)
+                            Text("Add breeds to your favorites list to see them here!")
+                                .font(.headline)
+                                .foregroundColor(.clayBrown)
+                        }
+                    } else {
+                        LazyVGrid(columns: columns, alignment: .center, spacing: 16) {
+                            if isFavoritesShown {
+                                ForEach(breedManager.breedData, id: \.name) { breed in
+                                    if favoriteBreedNames.contains(where: { $0.name == breed.name }) {
+                                        NavigationLink {
+                                            DetailsPageView(breed: breed)
+                                        } label: {
+                                            BreedGridView(imageURL: breed.imageLink, name: breed.name)
+                                        }
+                                    }
+                                    
+                                }
+                            } else {
+                                // Grouped Breeds
+                                ForEach(groupedBreeds.keys.sorted(), id: \.self) { letter in
+                                    // Letter Header
+                                    BreedGridView(imageURL: "", name: "\(letter)")
+                                    
+                                    // Breeds in this group
+                                    ForEach(groupedBreeds[letter]!, id: \.name) { breed in
+                                        NavigationLink {
+                                            DetailsPageView(breed: breed)
+                                        } label: {
+                                            BreedGridView(imageURL: breed.imageLink, name: breed.name)
+                                        }
+                                    }
+                                }
+                                
+                                // Data Pagination
+                                BreedGridView(imageURL: "", name: "Loading Data...")
+                                    .onAppear {
+                                        Task {
+                                            await breedManager.loadMore()
+                                        }
+                                    }
                             }
-                        }// FOREACH
-                    }// VGRID
-                    .padding(16)
-                }// SCROLL
+                        }
+                        .padding(16)
+                    }
+                } // ScrollView
                 .shadow(radius: 5)
                 .scrollIndicators(.hidden)
 
-       
+                
             }// VSTACK
             .modifier(GradientBackground())
             .onAppear {
                 Task {
-                   await breedManager.fetchData()
+                    await breedManager.fetchData()
                 }
             }
         }// NAVIGATION
@@ -125,7 +178,7 @@ struct MainPageView: View {
     }
 }
 
-
 #Preview {
     MainPageView()
+        .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
 }

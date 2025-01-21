@@ -16,6 +16,8 @@ struct BreedGridView: View {
             // Dog photo
             DogPhotoView(imageURL: imageURL)
                 .padding(20)
+                .frame(height: 150)
+                
             
             // Divider separating image and name
             Divider()
