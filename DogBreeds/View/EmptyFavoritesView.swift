@@ -12,11 +12,13 @@ struct EmptyFavoritesView: View {
         HStack {
             Image(systemName: "pawprint")
                 .font(.system(size: 50, weight: .bold))
-                .foregroundColor(.clayBrown)
             Text("Add breeds to your favorites list to see them here!")
                 .font(.headline)
-                .foregroundColor(.clayBrown)
         }
+        .padding()
+        .frame(maxWidth: .infinity)
+        .background(Color.clayBrown)
+        .foregroundStyle(Color.beige)
     }
 }
 

@@ -7,14 +7,17 @@
 
 import SwiftUI
 import CoreData
+import FirebaseDatabase
 
 struct DetailsPageView: View {
-    
-    @Environment(\.managedObjectContext) private var context
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Breed.name, ascending: false)], animation: .default) private var favoriteBreedNames: FetchedResults<Breed>
     @Environment(\.dismiss) var dismiss
+    @State private var favoriteDogs: [Dog] = []
+    var isFavorite: Bool {
+        favoriteDogs.contains(where: { $0.name == breed.name })
+    }
     
     let breed: Dog
+    
     
     private var traits: [(String, Int)] {
         [
@@ -28,31 +31,7 @@ struct DetailsPageView: View {
         ]
     }
     
-    //MARK: - Add Favorite Breed
-    private func addToFavorites(name: String) {
-        let favoriteBreed = Breed(context: context)
-        favoriteBreed.name = name
-        
-        do {
-            try context.save()
-        }catch {
-            print(error.localizedDescription)
-        }
-    }
     
-    //MARK: - Delete From Favorites
-    private func deleteFromFavorites(name: String) {
-        let fetchRequest: NSFetchRequest<Breed> = Breed.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "name == %@", name)
-        do {
-            let breedNameToDelete = try context.fetch(fetchRequest)
-            context.delete(breedNameToDelete[0])
-            try context.save()
-        }catch {
-            print(error.localizedDescription)
-        }
-        
-    }
     
     var body: some View {
         ScrollView {
@@ -90,6 +69,11 @@ struct DetailsPageView: View {
         .scrollIndicators(.hidden)
         .toolbarBackground(.beige.opacity(0.5), for: .navigationBar)
         .navigationBarBackButtonHidden()
+        .onAppear {
+            FirebaseManager.shared.fetchFavorites { dogs in
+                favoriteDogs = dogs
+            }
+        }
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 DetailsPageToolbarItemView(imageName: "chevron.left")
@@ -98,20 +82,22 @@ struct DetailsPageView: View {
                     }
             }
             ToolbarItem(placement: .topBarTrailing) {
-                let isFavorite = favoriteBreedNames.contains(where: { $0.name == breed.name })
-                DetailsPageToolbarItemView(imageName:  isFavorite ? "heart.fill" : "heart")
+                DetailsPageToolbarItemView(imageName: isFavorite ? "heart.fill" : "heart")
                     .onTapGesture {
-                        
                         if isFavorite {
-                            deleteFromFavorites(name: breed.name)
+                            FirebaseManager.shared.deleteFromFavorites(name: breed.name)
+                            favoriteDogs.removeAll(where: { $0.name == breed.name })
                         } else {
-                            addToFavorites(name: breed.name)
+                            FirebaseManager.shared.addToFavorites(dog: breed)
+                            favoriteDogs.append(breed)
                         }
-                        
                     }
             }
             
+            
         }
+        
+
     }
     
     

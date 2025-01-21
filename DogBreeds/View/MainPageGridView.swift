@@ -9,8 +9,8 @@ import SwiftUI
 
 struct MainPageGridView: View {
     @Binding var isFavoritesShown: Bool
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Breed.name, ascending: false)], animation: .default) private var favoriteBreedNames: FetchedResults<Breed>
     @ObservedObject var breedManager: BreedManager
+    @State private var favoriteDogs: [Dog] = []
     
     private let columns = Array(repeating: GridItem(.flexible()), count: 2)
     
@@ -20,12 +20,12 @@ struct MainPageGridView: View {
     
     var body: some View {
         ScrollView(.vertical) {
-            if isFavoritesShown && favoriteBreedNames.isEmpty {
+            if isFavoritesShown && favoriteDogs.isEmpty {
                 EmptyFavoritesView()
             } else {
                 LazyVGrid(columns: columns, alignment: .center, spacing: 16) {
                     if isFavoritesShown {
-                        FavoriteBreedsView(breedData: breedManager.breedData, favoriteBreedNames: favoriteBreedNames)
+                        FavoriteBreedsView(favoriteDogs: favoriteDogs)
                     } else {
                         // Grouped Breeds
                         GroupedBreedsView(groupedBreeds: groupedBreeds)
@@ -44,6 +44,11 @@ struct MainPageGridView: View {
         }
         .shadow(radius: 5)
         .scrollIndicators(.hidden)
+        .onAppear {
+            FirebaseManager.shared.fetchFavorites { dogs in
+                favoriteDogs = dogs
+            }
+        }
     }
 }
 

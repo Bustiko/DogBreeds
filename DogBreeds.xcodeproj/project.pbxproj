@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		C914BBB52D40128D00394A9E /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = C914BBB42D40128D00394A9E /* FirebaseDatabase */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		C9241EEC2D39190700139CB6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -29,9 +33,30 @@
 		C9241EF52D39190700139CB6 /* DogBreedsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DogBreedsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		C914BBB12D4010C200394A9E /* Exceptions for "DogBreeds" folder in "DogBreedsTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"GoogleService-Info.plist",
+			);
+			target = C9241EEA2D39190700139CB6 /* DogBreedsTests */;
+		};
+		C914BBB22D4010C200394A9E /* Exceptions for "DogBreeds" folder in "DogBreedsUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"GoogleService-Info.plist",
+			);
+			target = C9241EF42D39190700139CB6 /* DogBreedsUITests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		C9241ED82D39190500139CB6 /* DogBreeds */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				C914BBB12D4010C200394A9E /* Exceptions for "DogBreeds" folder in "DogBreedsTests" target */,
+				C914BBB22D4010C200394A9E /* Exceptions for "DogBreeds" folder in "DogBreedsUITests" target */,
+			);
 			path = DogBreeds;
 			sourceTree = "<group>";
 		};
@@ -52,6 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C914BBB52D40128D00394A9E /* FirebaseDatabase in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +138,7 @@
 			);
 			name = DogBreeds;
 			packageProductDependencies = (
+				C914BBB42D40128D00394A9E /* FirebaseDatabase */,
 			);
 			productName = DogBreeds;
 			productReference = C9241ED62D39190500139CB6 /* DogBreeds.app */;
@@ -195,6 +222,9 @@
 			);
 			mainGroup = C9241ECD2D39190500139CB6;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				C914BBB32D40128D00394A9E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C9241ED72D39190500139CB6 /* Products */;
 			projectDirPath = "";
@@ -558,6 +588,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C914BBB32D40128D00394A9E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.7.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C914BBB42D40128D00394A9E /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C914BBB32D40128D00394A9E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C9241ECE2D39190500139CB6 /* Project object */;
 }

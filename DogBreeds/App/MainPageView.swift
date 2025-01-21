@@ -83,5 +83,4 @@ struct MainPageView: View {
 
 #Preview {
     MainPageView()
-        .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
 }
