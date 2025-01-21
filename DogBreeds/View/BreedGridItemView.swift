@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct BreedGridView: View {
+struct BreedGridItemView: View {
     let imageURL: String
     let name: String
     
@@ -45,5 +45,5 @@ struct BreedGridView: View {
 }
 
 #Preview(traits: .sizeThatFitsLayout) {
-    BreedGridView(imageURL: "https://api-ninjas.com/images/dogs/shih_tzu.jpg", name: "Shih Tzu")
+    BreedGridItemView(imageURL: "https://api-ninjas.com/images/dogs/shih_tzu.jpg", name: "Shih Tzu")
 }
