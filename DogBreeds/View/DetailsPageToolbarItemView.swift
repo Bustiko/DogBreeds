@@ -13,6 +13,7 @@ struct DetailsPageToolbarItemView: View {
         Image(systemName: imageName)
                 .font(.system(.title3, design: .rounded, weight: .black))
                 .foregroundColor(Color.clayBrown)
+                .accessibilityIdentifier("DetailsToolbarItem-\(imageName)")
     }
 }
 

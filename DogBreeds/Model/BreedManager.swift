@@ -28,25 +28,45 @@ import SwiftUI
         }
         
         isLoading = true
-        guard let data: [Dog] = await DataManager().fetchData(from: url, headers: headers) else {
-            print("Error fetching breed data.")
+        
+        do {
+            let data: [Dog]? = try await DataManager().fetchData(from: url, headers: headers)
+            if let data = data {
+                DispatchQueue.main.async {
+                    
+                    for dog in data {
+                        self.breedData.append(dog)
+                    }
+                    self.page += 1
+                    if data.count < self.limit {
+                        self.isAllLoaded = true
+                    }
+                }
+                
+            }
+        }catch NetworkError.invalidURL {
+            print("Error creating URL object. Invalid URL string.")
+            isLoading = false
+            return
+        }catch NetworkError.invalidResponse {
+            print("Error. Got invalid response.")
+            isLoading = false
+            return
+        }catch NetworkError.badStatus {
+            print("Error. Bad response status.")
+            isLoading = false
+            return
+        }catch NetworkError.JSONDecodeFail {
+            print("Error decoding JSON into Swift object.")
+            isLoading = false
+            return
+        }catch {
+            print(error.localizedDescription)
             isLoading = false
             return
         }
         
-        DispatchQueue.main.async {
-            for dog in data {
-                self.breedData.append(dog)
-            }
-            self.page += 1
-            if data.count < self.limit {
-                self.isAllLoaded = true
-            }
-        }
-        
         isLoading = false
         
-//        print(breedData)
-
     }
 }

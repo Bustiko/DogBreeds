@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import CoreData
 import FirebaseDatabase
 
 struct DetailsPageView: View {
@@ -69,6 +68,7 @@ struct DetailsPageView: View {
         .scrollIndicators(.hidden)
         .toolbarBackground(.beige.opacity(0.5), for: .navigationBar)
         .navigationBarBackButtonHidden()
+        .accessibilityIdentifier("DetailsPageView")
         .onAppear {
             FirebaseManager.shared.fetchFavorites { dogs in
                 favoriteDogs = dogs

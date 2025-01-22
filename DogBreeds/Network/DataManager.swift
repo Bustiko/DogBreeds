@@ -7,10 +7,13 @@
 
 import UIKit
 
-struct DataManager {
-    func fetchData<T: Codable>(from url: String, headers: [String: String]? = nil) async -> T? {
-        do {
-            guard let url = URL(string: url) else {
+protocol DataManagerProtocol {
+    func fetchData<T: Codable>(from string: String, headers: [String: String]?) async throws -> T?
+}
+
+struct DataManager: DataManagerProtocol {
+    func fetchData<T: Codable>(from string: String, headers: [String: String]? = nil) async throws -> T? {
+            guard let url = URL(string: string) else {
                 throw NetworkError.invalidURL
             }
             var request = URLRequest(url: url)
@@ -38,20 +41,6 @@ struct DataManager {
             }
             
             return decodedResponse
-            
-        }catch NetworkError.invalidURL {
-            print("Error creating URL object. Invalid URL string.")
-        }catch NetworkError.invalidResponse {
-            print("Error. Got invalid response.")
-        }catch NetworkError.badStatus {
-            print("Error. Bad response status.")
-        }catch NetworkError.JSONDecodeFail {
-            print("Error decoding JSON into Swift object.")
-        }catch {
-            print(error.localizedDescription)
-        }
-        
-        return nil
         
     }
 }

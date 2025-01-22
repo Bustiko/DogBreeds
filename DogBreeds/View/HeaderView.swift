@@ -35,6 +35,7 @@ struct HeaderView: View {
                 MainPageHeaderButtonLabelView(imageName: isFavoritesShown ? "heart.fill" : "heart")
             }
             .scaleEffect(isFavoritesShown ? 1.2 : 1)
+            .accessibilityIdentifier("FavoritesButton")
             
             // Random Breed Button
             Button {
@@ -42,6 +43,7 @@ struct HeaderView: View {
             } label: {
                 MainPageHeaderButtonLabelView(imageName: "wand.and.sparkles")
             }
+            .accessibilityIdentifier("RandomBreedButton")
             
         }// HSTACK
         .padding()

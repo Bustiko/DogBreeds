@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import CoreData
 
 struct MainPageView: View {
     @State private var selectedTab: Int = 0
@@ -76,11 +75,12 @@ struct MainPageView: View {
                 }
             }
         }// NAVIGATION
+        .accessibilityIdentifier("NavigationStack")
         
         
     }
 }
 
 #Preview {
-    MainPageView()
+    MainPageView(breedManager: BreedManager())
 }

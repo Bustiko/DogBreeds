@@ -20,11 +20,13 @@ struct CarouselView: View {
                     .shadow(radius: 10)
                     .frame(height: 200, alignment: .center)
                     .tag(index)
+                    .accessibilityIdentifier("CarouselImage-\(index)")
             }// FOREACH
         }// TABVIEW
         .background(Color.clayBrown)
         .tabViewStyle(.page(indexDisplayMode: .never))
         .frame(height: 200)
+        .accessibilityIdentifier("CarouselView")
     }
 }
 

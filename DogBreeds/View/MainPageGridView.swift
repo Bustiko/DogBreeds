@@ -42,6 +42,7 @@ struct MainPageGridView: View {
                 .padding(16)
             }
         }
+        .accessibilityIdentifier("Grid")
         .shadow(radius: 5)
         .scrollIndicators(.hidden)
         .onAppear {
