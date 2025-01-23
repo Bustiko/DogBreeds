@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C926D34A2D42507D0055A5A8 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C926D3492D42507D0055A5A8 /* Launch Screen.storyboard */; };
 		C9981E372D414BDE000ED49A /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = C9981E362D414BDE000ED49A /* FirebaseDatabase */; };
 		C9981E3A2D414D37000ED49A /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = C9981E392D414D37000ED49A /* FirebaseDatabase */; };
 		C9981E3C2D414D3F000ED49A /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = C9981E3B2D414D3F000ED49A /* FirebaseDatabase */; };
@@ -33,6 +34,7 @@
 		C9241ED62D39190500139CB6 /* DogBreeds.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DogBreeds.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9241EEB2D39190700139CB6 /* DogBreedsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DogBreedsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9241EF52D39190700139CB6 /* DogBreedsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DogBreedsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C926D3492D42507D0055A5A8 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -50,12 +52,20 @@
 			);
 			target = C9241EF42D39190700139CB6 /* DogBreedsUITests */;
 		};
+		C926D3482D4250670055A5A8 /* Exceptions for "DogBreeds" folder in "DogBreeds" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = C9241ED52D39190500139CB6 /* DogBreeds */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		C9241ED82D39190500139CB6 /* DogBreeds */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
+				C926D3482D4250670055A5A8 /* Exceptions for "DogBreeds" folder in "DogBreeds" target */,
 				C914BBB12D4010C200394A9E /* Exceptions for "DogBreeds" folder in "DogBreedsTests" target */,
 				C914BBB22D4010C200394A9E /* Exceptions for "DogBreeds" folder in "DogBreedsUITests" target */,
 			);
@@ -105,6 +115,7 @@
 		C9241ECD2D39190500139CB6 = {
 			isa = PBXGroup;
 			children = (
+				C926D3492D42507D0055A5A8 /* Launch Screen.storyboard */,
 				C9241ED82D39190500139CB6 /* DogBreeds */,
 				C9241EEE2D39190700139CB6 /* DogBreedsTests */,
 				C9241EF82D39190700139CB6 /* DogBreedsUITests */,
@@ -256,6 +267,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C926D34A2D42507D0055A5A8 /* Launch Screen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -443,9 +455,11 @@
 				DEVELOPMENT_TEAM = 9AR7F497GV;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DogBreeds/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -472,9 +486,11 @@
 				DEVELOPMENT_TEAM = 9AR7F497GV;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DogBreeds/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
