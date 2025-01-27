@@ -20,8 +20,16 @@ import SwiftUI
     
     func fetchData() async {
         let offset = page * limit
+        
         let url = "https://api.api-ninjas.com/v1/dogs?min_height=1&offset=\(offset)"
-        let headers = ["X-Api-Key": "R7yoC5/BFnFCCVlYrknORQ==LWWnQlOGYUmWBFVA"]
+        
+        var headers: [String:String] = [:]
+        if let apiKey = ProcessInfo.processInfo.environment["API_KEY"] {
+            print("API Key: " + apiKey)
+            headers = ["X-Api-Key": apiKey]
+        }else {
+            print("API Key not found")
+        }
         
         guard !isLoading && !isAllLoaded else {
             return
