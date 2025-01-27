@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C902CB9B2D4798110065E010 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = C902CB9A2D4798110065E010 /* FirebaseAuth */; };
+		C902CB9D2D4798190065E010 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = C902CB9C2D4798190065E010 /* FirebaseAuth */; };
+		C902CB9F2D4798210065E010 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = C902CB9E2D4798210065E010 /* FirebaseAuth */; };
 		C926D34A2D42507D0055A5A8 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C926D3492D42507D0055A5A8 /* Launch Screen.storyboard */; };
 		C9981E372D414BDE000ED49A /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = C9981E362D414BDE000ED49A /* FirebaseDatabase */; };
 		C9981E3A2D414D37000ED49A /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = C9981E392D414D37000ED49A /* FirebaseDatabase */; };
@@ -90,6 +93,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9981E372D414BDE000ED49A /* FirebaseDatabase in Frameworks */,
+				C902CB9F2D4798210065E010 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,6 +102,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9981E3A2D414D37000ED49A /* FirebaseDatabase in Frameworks */,
+				C902CB9D2D4798190065E010 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,6 +111,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9981E3C2D414D3F000ED49A /* FirebaseDatabase in Frameworks */,
+				C902CB9B2D4798110065E010 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,6 +168,7 @@
 			name = DogBreeds;
 			packageProductDependencies = (
 				C9981E362D414BDE000ED49A /* FirebaseDatabase */,
+				C902CB9E2D4798210065E010 /* FirebaseAuth */,
 			);
 			productName = DogBreeds;
 			productReference = C9241ED62D39190500139CB6 /* DogBreeds.app */;
@@ -186,6 +193,7 @@
 			name = DogBreedsTests;
 			packageProductDependencies = (
 				C9981E392D414D37000ED49A /* FirebaseDatabase */,
+				C902CB9C2D4798190065E010 /* FirebaseAuth */,
 			);
 			productName = DogBreedsTests;
 			productReference = C9241EEB2D39190700139CB6 /* DogBreedsTests.xctest */;
@@ -210,6 +218,7 @@
 			name = DogBreedsUITests;
 			packageProductDependencies = (
 				C9981E3B2D414D3F000ED49A /* FirebaseDatabase */,
+				C902CB9A2D4798110065E010 /* FirebaseAuth */,
 			);
 			productName = DogBreedsUITests;
 			productReference = C9241EF52D39190700139CB6 /* DogBreedsUITests.xctest */;
@@ -631,6 +640,21 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		C902CB9A2D4798110065E010 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C9981E352D414BDE000ED49A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		C902CB9C2D4798190065E010 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C9981E352D414BDE000ED49A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		C902CB9E2D4798210065E010 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C9981E352D414BDE000ED49A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
 		C9981E362D414BDE000ED49A /* FirebaseDatabase */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = C9981E352D414BDE000ED49A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
