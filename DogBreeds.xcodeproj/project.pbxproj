@@ -11,6 +11,7 @@
 		C902CB9D2D4798190065E010 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = C902CB9C2D4798190065E010 /* FirebaseAuth */; };
 		C902CB9F2D4798210065E010 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = C902CB9E2D4798210065E010 /* FirebaseAuth */; };
 		C926D34A2D42507D0055A5A8 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C926D3492D42507D0055A5A8 /* Launch Screen.storyboard */; };
+		C9434EBD2D48127600892858 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = C9434E9F2D48127600892858 /* .gitignore */; };
 		C9981E372D414BDE000ED49A /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = C9981E362D414BDE000ED49A /* FirebaseDatabase */; };
 		C9981E3A2D414D37000ED49A /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = C9981E392D414D37000ED49A /* FirebaseDatabase */; };
 		C9981E3C2D414D3F000ED49A /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = C9981E3B2D414D3F000ED49A /* FirebaseDatabase */; };
@@ -38,6 +39,7 @@
 		C9241EEB2D39190700139CB6 /* DogBreedsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DogBreedsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9241EF52D39190700139CB6 /* DogBreedsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DogBreedsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C926D3492D42507D0055A5A8 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		C9434E9F2D48127600892858 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -127,6 +129,7 @@
 				C9241EF82D39190700139CB6 /* DogBreedsUITests */,
 				C9981E382D414D37000ED49A /* Frameworks */,
 				C9241ED72D39190500139CB6 /* Products */,
+				C9434E9F2D48127600892858 /* .gitignore */,
 			);
 			sourceTree = "<group>";
 		};
@@ -277,6 +280,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C926D34A2D42507D0055A5A8 /* Launch Screen.storyboard in Resources */,
+				C9434EBD2D48127600892858 /* .gitignore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
