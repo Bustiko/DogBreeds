@@ -13,6 +13,7 @@ import SwiftUI
     private var isAllLoaded: Bool = false
     private let limit = 20
     private var page = 0
+    private var headers: [String:String] = [:]
     
     func loadMore() async {
         await fetchData()
@@ -23,7 +24,6 @@ import SwiftUI
         
         let url = "https://api.api-ninjas.com/v1/dogs?min_height=1&offset=\(offset)"
         
-        var headers: [String:String] = [:]
         if let apiKey = ProcessInfo.processInfo.environment["API_KEY"] {
             print("API Key: " + apiKey)
             headers = ["X-Api-Key": apiKey]
