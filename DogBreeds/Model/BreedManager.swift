@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-@MainActor class BreedManager: ObservableObject{
+class BreedManager: ObservableObject{
     @Published var breedData: [Dog] = []
     private var isLoading: Bool = false
     private var isAllLoaded: Bool = false
@@ -40,15 +40,16 @@ import SwiftUI
         do {
             let data: [Dog]? = try await DataManager().fetchData(from: url, headers: headers)
             if let data = data {
-                DispatchQueue.main.async {
-                    
+                await MainActor.run {
+                    //might switched to background thread during async operation (fetching data), need to come back to main thread for UI updates
                     for dog in data {
                         self.breedData.append(dog)
                     }
-                    self.page += 1
-                    if data.count < self.limit {
-                        self.isAllLoaded = true
-                    }
+                }
+                
+                self.page += 1
+                if data.count < self.limit {
+                    self.isAllLoaded = true
                 }
                 
             }
