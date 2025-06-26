@@ -10,33 +10,18 @@ import FirebaseDatabase
 
 struct DetailsPageView: View {
     @Environment(\.dismiss) var dismiss
-    @State private var favoriteDogs: [Dog] = []
-    var isFavorite: Bool {
-        favoriteDogs.contains(where: { $0.name == breed.name })
+    @ObservedObject var viewModel: DetailsPageViewModel
+    
+    // MARK: - Initialization
+    init(breed: Dog, viewModel: DetailsPageViewModel? = nil) {
+        self.viewModel = viewModel ?? DetailsPageViewModel(breed: breed)
     }
-    
-    let breed: Dog
-    
-    
-    private var traits: [(String, Int)] {
-        [
-            ("Barking", breed.barking),
-            ("Grooming", breed.grooming),
-            ("Playfulness", breed.playfulness),
-            ("Protectiveness", breed.protectiveness),
-            ("Trainability", breed.trainability),
-            ("Shedding", breed.shedding),
-            ("Energy", breed.energy)
-        ]
-    }
-    
-    
     
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
-                //MARK: - Header View
-                Text("\(breed.name)")
+                //**MARK: - Header View**
+                Text("\(viewModel.breed.name)")
                     .font(.system(.largeTitle, design: .rounded, weight: .bold))
                     .multilineTextAlignment(.center)
                     .foregroundStyle(Color.beige)
@@ -45,8 +30,8 @@ struct DetailsPageView: View {
                     .background(RoundedRectangle(cornerRadius: 16).fill(Color.clayBrown))
                     .padding(10)
                 
-                //MARK: - Photo View
-                DogPhotoView(imageURL: breed.imageLink)
+                //**MARK: - Photo View**
+                DogPhotoView(imageURL: viewModel.breed.imageLink)
                     .clipShape(RoundedRectangle(cornerRadius: 16))
                     .overlay {
                         RoundedRectangle(cornerRadius: 16)
@@ -55,12 +40,12 @@ struct DetailsPageView: View {
                     .frame(height: 250)
                     .shadow(radius: 5)
                 
-                //MARK: - Height&Weight Grid View
-                HeightWeihtGridView(breed: breed)
+                //**MARK: - Height&Weight Grid View**
+                HeightWeihtGridView(breed: viewModel.breed)
                     .padding(10)
                 
-                //MARK: - Traits View
-                TraitsGridView(traits: traits)
+                //**MARK: - Traits View**
+                TraitsGridView(traits: viewModel.traits)
                     .padding(.horizontal, 10)
             }// VSTACK
         }// SCROLL
@@ -70,9 +55,7 @@ struct DetailsPageView: View {
         .navigationBarBackButtonHidden()
         .accessibilityIdentifier("DetailsPageView")
         .onAppear {
-            FirebaseManager.shared.fetchFavorites { dogs in
-                favoriteDogs = dogs
-            }
+            viewModel.fetchFavorites()
         }
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
@@ -82,32 +65,26 @@ struct DetailsPageView: View {
                     }
             }
             ToolbarItem(placement: .topBarTrailing) {
-                DetailsPageToolbarItemView(imageName: isFavorite ? "heart.fill" : "heart")
+                DetailsPageToolbarItemView(imageName: viewModel.isFavorite ? "heart.fill" : "heart")
                     .onTapGesture {
-                        if isFavorite {
-                            FirebaseManager.shared.deleteFromFavorites(name: breed.name)
-                            favoriteDogs.removeAll(where: { $0.name == breed.name })
-                        } else {
-                            FirebaseManager.shared.addToFavorites(dog: breed)
-                            favoriteDogs.append(breed)
-                        }
+                        viewModel.toggleFavorite()
                     }
             }
-            
-            
         }
-        
-
     }
-    
-    
 }
 
 #Preview {
     NavigationStack {
         DetailsPageView(breed: Dog(
-            imageLink: "https://api-ninjas.com/images/dogs/shih_tzu.jpg", shedding: 1, grooming: 4, drooling: 1, coatLength: 1, playfulness: 3, protectiveness: 3, trainability: 4, energy: 3, barking: 3, maxHeightMale: 10.5, maxHeightFemale: 10.5, maxWeightMale: 16.0, maxWeightFemale: 16.0, minHeightMale: 9.0, minHeightFemale: 9.0, minWeightMale: 9.0, minWeightFemale: 9.0, name: "Shih Tzu"
+            imageLink: "https://api-ninjas.com/images/dogs/shih_tzu.jpg",
+            shedding: 1, grooming: 4, drooling: 1, coatLength: 1,
+            playfulness: 3, protectiveness: 3, trainability: 4,
+            energy: 3, barking: 3, maxHeightMale: 10.5,
+            maxHeightFemale: 10.5, maxWeightMale: 16.0,
+            maxWeightFemale: 16.0, minHeightMale: 9.0,
+            minHeightFemale: 9.0, minWeightMale: 9.0,
+            minWeightFemale: 9.0, name: "Shih Tzu"
         ))
     }
-    
 }
